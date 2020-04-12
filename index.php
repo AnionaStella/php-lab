@@ -4,6 +4,8 @@ Du behöver ha ett formulär för att göra urval ur databasen. Detta ska innhå
 Dessutom ska din webbsida ha en resultat-del, där data presenteras. 
   • En användare ska kunna lista alla djur, och välja ett djur både utifrån en select/dropdown som från ett input-fält (text, exempelvis söka på namn). 
   • Bildfiler på söta djur ska kunna laddas upp till en katalog på din localhost-server.  */
+  
+include("upload.php");
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -35,6 +37,9 @@ if(isset($_GET["search-animal"])){
 if(isset($_GET["show-all"])){
   $animals = $selectAnimals;
 }
+
+
+//basename( $_FILES["fileToUpload"]["name"]) -- filnamn
 
 $resultAmount = count($animals);
 
@@ -77,7 +82,7 @@ $resultAmount = count($animals);
   <?php
    foreach ($animals as $animal) { ?>
     <div class="card">
-      <img src="" alt="">
+      <img src="uploads/<?php echo $animal['image']; ?>" alt="">
       <div class="container">
         <h4>Name:<?php echo $animal['name']; ?> </h4>
         <p>Category: <?php echo $animal['category']; ?></p>
@@ -85,13 +90,11 @@ $resultAmount = count($animals);
         <form action="index.php" method="post" enctype="multipart/form-data">
           Select image to upload:
           <input type="file" name="fileToUpload" id="fileToUpload">
-          <input type="hidden" name="animalId" value="databasId: 1">
+          <input type="hidden" name="animalId" value="<?php echo $animal['id']; ?>">
           <input type="submit" value="Upload Image" name="submit">
         </form>
       </div>
     </div>
   <?php } ?>
-  
-
 </body>
 </html>
