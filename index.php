@@ -11,15 +11,24 @@ error_reporting(E_ALL);
 
 $dbconnection = new PDO('mysql:host=localhost;dbname=zoo', "zoo", "zoo");
 $animals = array();
+$selectAnimals = array();
+$query = "SELECT * FROM animals";
 
+foreach ($dbconnection->query($query) as $animal) {
+  array_push($selectAnimals, $animal);
+}
+if(isset($_GET["animal-select"])){
+  $selectquery = "SELECT * FROM animals WHERE id = :id";
+  $statement = $dbconnection->prepare($selectquery, array(PDO::FETCH_ASSOC)); 
+  $statement->execute(array(':id' => $_GET["animal"] )); 
+  $animals = $statement->fetchAll(); 
+}
 
 if(isset($_GET["show-all"])){
-  $query = "SELECT * FROM animals";
-  foreach ($dbconnection->query($query) as $animal) {
-    array_push($animals, $animal);
-  }
+  $animals = $selectAnimals;
 }
 $resultAmount = count($animals);
+
 ?>
 
 
@@ -41,9 +50,11 @@ $resultAmount = count($animals);
     <label for="animal-select">Select animal</label>
     <select name="animal" id="animal-select">
       <option value="">--select animal--</option>
-      <option value=""></option>
+      <?php foreach($selectAnimals as $animal) { ?>
+      <option value="<?php echo $animal["id"]; ?>"><?php echo $animal["name"];?></option>
+      <?php } ?>
     </select>
-    <input type="submit" value="submit">
+    <input type="submit" name="animal-select" value="submit">
   </form>
   <form action="index.php" method="get">
     <label for="search-animal">Search for animal</label>
