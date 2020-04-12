@@ -17,16 +17,25 @@ $query = "SELECT * FROM animals";
 foreach ($dbconnection->query($query) as $animal) {
   array_push($selectAnimals, $animal);
 }
+
 if(isset($_GET["animal-select"])){
-  $selectquery = "SELECT * FROM animals WHERE id = :id";
-  $statement = $dbconnection->prepare($selectquery, array(PDO::FETCH_ASSOC)); 
+  $selectQuery = "SELECT * FROM animals WHERE id = :id";
+  $statement = $dbconnection->prepare($selectQuery, array(PDO::FETCH_ASSOC)); 
   $statement->execute(array(':id' => $_GET["animal"] )); 
+  $animals = $statement->fetchAll(); 
+}
+
+if(isset($_GET["search-animal"])){
+  $searchQuery = "SELECT * FROM animals WHERE name = :name";
+  $statement = $dbconnection->prepare($searchQuery, array(PDO::FETCH_ASSOC)); 
+  $statement->execute(array(':name' => $_GET["animal"] )); 
   $animals = $statement->fetchAll(); 
 }
 
 if(isset($_GET["show-all"])){
   $animals = $selectAnimals;
 }
+
 $resultAmount = count($animals);
 
 ?>
@@ -59,7 +68,7 @@ $resultAmount = count($animals);
   <form action="index.php" method="get">
     <label for="search-animal">Search for animal</label>
     <input type="search" name="animal" id="search-animal">
-    <input type="submit" value="submit">
+    <input type="submit" name="search-animal" value="submit">
   </form>
   
   <h2>Search results: <?php echo $resultAmount; ?> found </h2>
