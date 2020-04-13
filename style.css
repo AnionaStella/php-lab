@@ -1,3 +1,63 @@
+body {
+  padding: 10px;
+}
+
 .card {
   border-style: groove;
+  /* remove when grid is ready*/
+  padding: 10px;
+  margin: 10px;
+}
+
+input {
+  padding: 5px;
+}
+
+.selectfield {
+  background-color: #f0fdec;
+  padding: 10px;
+}
+
+.jumbotron {
+  background-color: #b7eabf;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .pre-image {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    padding: 10px;
+  }
+}
+
+/*  Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .pre-image {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    padding: 10px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .pre-image {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    padding: 10px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .pre-image {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    padding: 10px;
+  }
 }
