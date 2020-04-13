@@ -1,7 +1,7 @@
 <?php 
 include("repository.php");
+$animalRepository = new AnimalRepository();
 include("upload.php");
-
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -10,19 +10,19 @@ error_reporting(E_ALL);
 $animals = array();
 
 if(isset($_GET["animal-select"])){
-  $animal = getAnimalById($_GET["animal"]);
+  $animal = $animalRepository->getAnimalById($_GET["animal"]);
   array_push($animals, $animal);
 }
 
 if(isset($_GET["search-animal"])){
-  $animals = getAnimalsByName($_GET["animal"]);
+  $animals = $animalRepository->getAnimalsByName($_GET["animal"]);
 }
 
 if(isset($_GET["show-all"])){
-  $animals = getAllAnimals();
+  $animals = $animalRepository->getAllAnimals();
 }
 
-$selectAnimals = getAllAnimals();
+$selectAnimals = $animalRepository->getAllAnimals();
 $resultAmount = count($animals);
 
 ?>

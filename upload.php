@@ -43,7 +43,7 @@ if(isset($_POST["submit"])) {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
           echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
           // Fetch old file name
-          $animal = getAnimalById($_POST["animalId"]);
+          $animal = $animalRepository->getAnimalById($_POST["animalId"]);
           $oldImage = $animal["image"];
           // erase file
           if($oldImage){
@@ -51,7 +51,7 @@ if(isset($_POST["submit"])) {
             echo "deleted old file"; 
           }
           //update image file
-          setImageById(basename( $_FILES["fileToUpload"]["name"]),$_POST["animalId"]); 
+          $animalRepository->setImageById(basename( $_FILES["fileToUpload"]["name"]),$_POST["animalId"]); 
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
