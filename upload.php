@@ -1,11 +1,16 @@
 
 <?php
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
         echo "File is an image - " . $check["mime"] . ".";
@@ -14,7 +19,6 @@ if(isset($_POST["submit"])) {
         echo "File is not an image.";
         $uploadOk = 0;
     }
-
     // Check if file already exists
     if (file_exists($target_file)) {
         echo "Sorry, file already exists.";
@@ -37,12 +41,17 @@ if(isset($_POST["submit"])) {
     // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-              $dbconnection = new PDO('mysql:host=localhost;dbname=zoo', "zoo", "zoo");
-              $imageQuery = "UPDATE animals set image = :name where id = :id";
-              $statement = $dbconnection->prepare($imageQuery, array(PDO::FETCH_ASSOC)); 
-              $statement->execute(array(':name' => basename( $_FILES["fileToUpload"]["name"]), ':id' => $_POST["animalId"] )); 
-            
+          echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+          // Fetch old file name
+          $animal = getAnimalById($_POST["animalId"]);
+          $oldImage = $animal["image"];
+          // erase file
+          if($oldImage){
+            unlink("uploads/$oldImage");
+            echo "deleted old file"; 
+          }
+          //update image file
+          setImageById(basename( $_FILES["fileToUpload"]["name"]),$_POST["animalId"]); 
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
