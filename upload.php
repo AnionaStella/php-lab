@@ -1,6 +1,7 @@
 
 <?php
 
+// Error check for wip
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,6 +13,7 @@ if(isset($_POST["submit"])) {
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    // check if file is an image
     if($check !== false) {
         echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
@@ -57,4 +59,4 @@ if(isset($_POST["submit"])) {
         }
     }
 }
-?>
+

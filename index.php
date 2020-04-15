@@ -1,24 +1,25 @@
 <?php 
-include("repository.php");
+include('repository.php');
 $animalRepository = new AnimalRepository();
-include("upload.php");
+include('upload.php');
 
+//Rrror codes for wip
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $animals = array();
 
-if(isset($_GET["animal-select"])){
-  $animal = $animalRepository->getAnimalById($_GET["animal"]);
+if(isset($_GET['animal-select'])){
+  $animal = $animalRepository->getAnimalById($_GET['animal']);
   array_push($animals, $animal);
 }
 
-if(isset($_GET["search-animal"])){
-  $animals = $animalRepository->getAnimalsByName($_GET["animal"]);
+if(isset($_GET['search-animal'])){
+  $animals = $animalRepository->getAnimalsByName($_GET['animal']);
 }
 
-if(isset($_GET["show-all"])){
+if(isset($_GET['show-all'])){
   $animals = $animalRepository->getAllAnimals();
 }
 
@@ -59,7 +60,7 @@ $resultAmount = count($animals);
       <select name="animal" id="animal-select">
         <option value="">-- select --</option>
         <?php foreach($selectAnimals as $animal) { ?>
-        <option value="<?php echo $animal["id"]; ?>"><?php echo $animal["name"];?></option>
+        <option value="<?php echo $animal['id']; ?>"><?php echo $animal['name'];?></option>
         <?php } ?>
       </select>
       <input type="submit" name="animal-select" value="Select">
@@ -86,7 +87,7 @@ $resultAmount = count($animals);
             <?php if(!empty($animal['image'])){ ?>
               <img src="uploads/<?php echo $animal['image']; ?>" class="card-img-top" alt="">
             <?php }else { ?>
-             <img src="images/pre-image.png" class="card-img-top pre-image" alt="">
+             <img src="images/pre-image.png" class="card-img-top pre-image" alt="no image">
             <?php } ?>
             <div class="container">
               <h4>Name: <?php echo $animal['name']; ?> </h4>

@@ -4,7 +4,6 @@ body {
 
 .card {
   border-style: groove;
-  /* remove when grid is ready*/
   padding: 10px;
   margin: 10px;
 }
