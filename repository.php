@@ -14,26 +14,23 @@ class AnimalRepository {
   }
 
   public function getAllAnimals() {
-    $animals = array();
     $query = 'SELECT * FROM animals';
-    foreach ($this->dbconnection->query($query) as $animal) {
-      array_push($animals, $animal);
-    }
-    return $animals;
+    $statement = $this->dbconnection->prepare($query, array(PDO::FETCH_ASSOC)); 
+    $statement->execute(); 
+    return $statement->fetchAll();
   }
 
   public function getAnimalById($id) {
     $selectQuery = 'SELECT * FROM animals WHERE id = :id';
     $statement = $this->dbconnection->prepare($selectQuery, array(PDO::FETCH_ASSOC)); 
-    $statement->execute(array(':id' => $id )); 
-    $animals = $statement->fetchAll();
-    return $animals[0];
+    $statement->execute(array(':id' => $id)); 
+    return $statement->fetch();
   }
 
-  public function getAnimalsbyName($name) {
+  public function getAnimalsByName($name) {
     $searchQuery = 'SELECT * FROM animals WHERE name = :name';
     $statement = $this->dbconnection->prepare($searchQuery, array(PDO::FETCH_ASSOC)); 
-    $statement->execute(array(':name' => $name )); 
+    $statement->execute(array(':name' => $name)); 
     return $statement->fetchAll(); 
   }
 

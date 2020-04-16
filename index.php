@@ -3,7 +3,7 @@ include('repository.php');
 $animalRepository = new AnimalRepository();
 include('upload.php');
 
-//Rrror codes for wip
+//Error codes for wip
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -78,11 +78,11 @@ $resultAmount = count($animals);
     <!-- Search results -->
     <h2>Search results: <?php echo $resultAmount; ?> found </h2>
     <br>
-    <!-- animal card -->
     <div class="row">
       <?php
       foreach ($animals as $animal) { ?>
         <div class="col-sm-4">
+          <!-- animal card -->
           <div class="card">
             <?php if(!empty($animal['image'])){ ?>
               <img src="uploads/<?php echo $animal['image']; ?>" class="card-img-top" alt="">
