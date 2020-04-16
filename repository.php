@@ -7,13 +7,13 @@ error_reporting(E_ALL);
 
 class AnimalRepository {
 
-  public $dbconnection;
+  private $dbconnection;
 
-  function __construct() {
+  public function __construct() {
     $this->dbconnection = new PDO('mysql:host=localhost;dbname=zoo', 'zoo', 'zoo');
   }
 
-  function getAllAnimals() {
+  public function getAllAnimals() {
     $animals = array();
     $query = 'SELECT * FROM animals';
     foreach ($this->dbconnection->query($query) as $animal) {
@@ -22,7 +22,7 @@ class AnimalRepository {
     return $animals;
   }
 
-  function getAnimalById($id) {
+  public function getAnimalById($id) {
     $selectQuery = 'SELECT * FROM animals WHERE id = :id';
     $statement = $this->dbconnection->prepare($selectQuery, array(PDO::FETCH_ASSOC)); 
     $statement->execute(array(':id' => $id )); 
@@ -30,14 +30,14 @@ class AnimalRepository {
     return $animals[0];
   }
 
-  function getAnimalsbyName($name) {
+  public function getAnimalsbyName($name) {
     $searchQuery = 'SELECT * FROM animals WHERE name = :name';
     $statement = $this->dbconnection->prepare($searchQuery, array(PDO::FETCH_ASSOC)); 
     $statement->execute(array(':name' => $name )); 
     return $statement->fetchAll(); 
   }
 
-  function setImageById($image, $id) {
+  public function setImageById($image, $id) {
     $updateImageQuery = 'UPDATE animals set image = :image where id = :id';
     $statement = $this->dbconnection->prepare($updateImageQuery, array(PDO::FETCH_ASSOC)); 
     $statement->execute(array(':image' => $image, ':id' =>  $id));
